@@ -13,14 +13,14 @@ app.use(bodyParser.urlencoded({extend: false}))
 app.use(bodyParser.json())
 
 
-//ROTA 1
+//ROUTE 1
 app.get("/", function(req, res, next){
   //sending a file
   res.sendFile(__dirname + "/html/index.html")
 })
 
 
-//ROTA 2
+//ROUTE 2
 app.post("/formResult", function(req, res, next){
   //Push data from the form
   let personData = {
