@@ -39,7 +39,11 @@ const { get } = require("express/lib/response");
   //3.2 - ROUTE 2
   app.get("/records", function(req, res){
     //Return all users inside database
-    res.render('records')
+    user.all().then(function(users){
+      //var users receives users rom then
+      res.render('records')
+    })
+    
   })
 
   //3.3 - ROUTE 3
