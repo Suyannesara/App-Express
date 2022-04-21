@@ -5,7 +5,7 @@
   //2 - CONFIG
     //2.1 - DATABASE - mysql
     //Conect to dabase
-    const sequelize = new Sequelize("REGISTERSYSTEM", "root", "1234", {host:"localhost", dialect: "mysql"})
+    const sequelize = new Sequelize("REGISTERSYSTEM", "dwcorp", "17hy23", {host:"170.83.132.66:3306", dialect: "mysql"})
 
   //Exporting
   module.exports = {
