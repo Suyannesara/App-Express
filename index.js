@@ -14,8 +14,8 @@
   const {path} = require("express/lib/application");
 
   //1.3 - MODEL BD
-  const user = require("./models/User");
-const { get } = require("express/lib/response");
+  const User = require("./models/User");
+  const { get } = require("express/lib/response");
 
 //2 - CONFIG
   //2.1 - Template engine - Handlebars
@@ -37,19 +37,33 @@ const { get } = require("express/lib/response");
   })
 
   //3.2 - ROUTE 2
-  app.get("/records", function(req, res){
-    //Return all users inside database
-    user.all().then(function(users){
-      //var users receives users rom then
-      res.render('records')
+  app.get("/records", async function(req, res){
+    const users = await User.findAll()
+
+    users.map((user) => { 
+       return user.dataValues
     })
     
+    res.render('records', {users: JSON.stringify(users)})
+
+  })
+
+  app.get("/users", async function(req, res){
+    const users = await User.findAll()
+
+    users.map((user) => { 
+       return user.dataValues
+    })
+  
+    res.status(200)
+    res.send(users)
+
   })
 
   //3.3 - ROUTE 3
   app.post("/formResult", function(req, res){
     //Push data from the form
-    user.create({
+    User.create({
       u_name: req.body.name,
       email: req.body.email,
     //Know if user was created wih success

@@ -1,25 +1,27 @@
-const db = require('./db')
+const { Sequelize, Model, DataTypes } = require('sequelize');
+// const sequelize = new Sequelize('sqlite::memory:');
 
-//Creating a model
-const user =  db.sequelize.define("users", {
-  id:{
-    type: db.Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
+const sequelize = new Sequelize("REGISTERSYSTEM", "root", "1234", {host:"localhost", dialect: "mysql"})
+
+const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
-  u_name:{
-    type: db.Sequelize.STRING
-  },
-  email:{
-    type: db.Sequelize.STRING
-  }
-})
+
+  u_name: DataTypes.STRING,
+  email: DataTypes.STRING
+  /*createdAt: DataTypes.DATE,
+  updateAt: DataTypes.DATE*/
+  
+}, { sequelize, modelName: 'user' });
 
 //Sync your model with mysql
 //user.sync({force: true}) - table alreay created
 
 //Use user model in other files
-module.exports = user
+module.exports = User
 
 /*user.create({
   u_name: req.body.name,
