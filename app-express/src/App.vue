@@ -1,36 +1,49 @@
 <template>
   <div>
-    <h1>aaaaaaaaaa</h1>
-    <h2>{{ info }}</h2>
+    <table border="1">
+      <thead>
+        <th>Nome de Usuário</th>
+        <th>E-mail</th>
+      </thead>
+      {{ info }}
+    </table>
   </div>
 </template>
 
 <script>
-  import instance from './services/api';
+  import api from './services/api';
 
  export default {
    name: 'App',
    data(){
      return {
-       info: instance
+       info: ""
      }
-   }
+   },
+   mounted(){
+     
+      api.get("records").then((response) => {
+        let data = response.data
+
+        for(let i = 0; i <= data.length; i++){
+          this.info += `${(data[i].u_name)} \n`
+          this.info += `${(data[i].email)} \n`
+        }
+        
+        //tr loop
+        // for(let i = 0; i<= data.length; i++){
+          
+        //   for(let i = 0; i <= data.length; i++){
+        //     this.info += `<td>${(data[i].u_name)}</td>` + `<br>`
+        //     this.info += `< td > ${(data[i].email)}</td>` + `<br>`
+        //   }
+        //   this.info += `</tr>`
+
+        // }
+
+      }).catch(error => {console.log(error) })
+    }
  }
-
-  // export default {
-  //   name: 'App',
-   
-  //   data(){
-  //     return{
-  //       info: null
-  //     }
-      
-  //   },
-  //   mounted(){
-  //     axios.get('https://localhost:8081/users').then(response => (this.info = response))
-  //   }
-
-  // }
 
 </script>
 

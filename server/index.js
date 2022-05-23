@@ -4,18 +4,13 @@ const res = require("express/lib/response");
 //express things will be accessed through this constant app
 const app = express();
 
-const axios = require('axios')
-
+const cors = require('cors');
 // TODO: add CORS to headers
-app.use((re, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://localhost:8080")
-  res.header("Access-Control-Allow-Origin", "GET, PUT, POST, DELETE")
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080")
   app.use(cors())
   next()
 })
-
-const cors = require('cors');
-
 
 //1.2 - BODY PARSER
 //Inserting body-parser module
@@ -44,16 +39,16 @@ app.get("/", function (req, res) {
 })
 
 //3.2 - ROUTE 2
-// app.get("/records", async function (req, res) {
-//   const users = await User.findAll()
+app.get("/records", async function (req, res) {
+  const users = await User.findAll()
 
-//   users.map((user) => {
-//     return user.dataValues
-//   })
-//   //console.log(JSON.stringify(users))
-//   //res.render('records', { users : users(JSON.stringify) })
-//   res.send(JSON.stringify({ users : users }))
-// })
+  users.map((user) => {
+    return user.dataValues
+  })
+  //console.log(JSON.stringify(users))
+  res.send(JSON.stringify(users))
+  //res.json({ users : users })
+})
 
 app.get("/users", async function (req, res) {
   const users = await User.findAll()
@@ -86,7 +81,7 @@ app.post("/formResult", function (req, res) {
     email: req.body.email,
     //Know if user was created wih success
   }).then(function () {
-    res.redirect('/users')
+    res.redirect('/records')
   }).catch(function (erro) {
     res.send("There was an error on register: " + erro)
   })

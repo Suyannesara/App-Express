@@ -1,18 +1,16 @@
 import axios from "axios"
 
-const instance = axios.create({
-    baseURL: 'https://localhost:8081',
-    timeout: 1000,
-    proxy: {
-        protocol: 'https'
-    }
+const api = axios.create({
+    baseURL: 'http://localhost:8081',
+    timeout: 1000
 })
 
-instance.get("users").then((response) => {
-    console.log(response.data)
-}).catch(error => {
-    console.log(error.response)
-})
+// api.get("records").then((response) => {
+//     return response.data
+// }).catch(error => {
+//     console.log(error)
+// })
 
 
-export default {instance}
+
+export default api
