@@ -4,11 +4,18 @@ const res = require("express/lib/response");
 //express things will be accessed through this constant app
 const app = express();
 
-// TODO: add CORS to headers
+const axios = require('axios')
 
-//1.1 -TEMPLATE ENGINE
-//Inserting handlebars module
-const { engine } = require("express-handlebars")
+// TODO: add CORS to headers
+app.use((re, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://localhost:8080")
+  res.header("Access-Control-Allow-Origin", "GET, PUT, POST, DELETE")
+  app.use(cors())
+  next()
+})
+
+const cors = require('cors');
+
 
 //1.2 - BODY PARSER
 //Inserting body-parser module
@@ -20,10 +27,8 @@ const User = require("./models/User");
 const { get } = require("express/lib/response");
 
 //2 - CONFIG
-//2.1 - Template engine - Handlebars
-//The default layout will be "main" inside /layouts
-app.engine('handlebars', engine({ defaultLayout: 'main' }))
-app.set('view engine', 'handlebars')
+app.use(express.static(__dirname + '/views'))
+//2.1 - Template engine
 app.set("views", "./views")
 
 //2.2 - BodyParser
@@ -35,20 +40,20 @@ app.use(bodyParser.json())
 //3.1 - ROUTE 1
 app.get("/", function (req, res) {
   //sending a file
-  res.render('form')
+  res.sendFile('form.html',  {root : './views'})
 })
 
 //3.2 - ROUTE 2
-app.get("/records", async function (req, res) {
-  const users = await User.findAll()
+// app.get("/records", async function (req, res) {
+//   const users = await User.findAll()
 
-  users.map((user) => {
-    return user.dataValues
-  })
-
-  res.render('records', { users: JSON.stringify(users) })
-
-})
+//   users.map((user) => {
+//     return user.dataValues
+//   })
+//   //console.log(JSON.stringify(users))
+//   //res.render('records', { users : users(JSON.stringify) })
+//   res.send(JSON.stringify({ users : users }))
+// })
 
 app.get("/users", async function (req, res) {
   const users = await User.findAll()
@@ -58,7 +63,7 @@ app.get("/users", async function (req, res) {
   })
 
   res.status(200)
-  res.send(users)
+  res.send(JSON.stringify(users))
 
 })
 
@@ -81,12 +86,13 @@ app.post("/formResult", function (req, res) {
     email: req.body.email,
     //Know if user was created wih success
   }).then(function () {
-    res.redirect('/records')
+    res.redirect('/users')
   }).catch(function (erro) {
     res.send("There was an error on register: " + erro)
   })
 
 })
+
 
 //SERVER
 //opening server, it should be the last insert of the code
