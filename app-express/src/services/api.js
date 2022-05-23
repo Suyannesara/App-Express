@@ -5,12 +5,4 @@ const api = axios.create({
     timeout: 1000
 })
 
-// api.get("records").then((response) => {
-//     return response.data
-// }).catch(error => {
-//     console.log(error)
-// })
-
-
-
 export default api
