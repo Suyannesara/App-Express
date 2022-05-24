@@ -7,7 +7,7 @@ const app = express();
 const cors = require('cors');
 // TODO: add CORS to headers
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080")
+  res.header("Access-Control-Allow-Origin", "*")
   app.use(cors())
   next()
 })
@@ -91,7 +91,7 @@ app.post("/formResult", function (req, res) {
 
 //SERVER
 //opening server, it should be the last insert of the code
-app.listen(8081, function () {
+app.listen(9855, function () {
   console.log("O servidor ta rodandooooo")
 });
 
