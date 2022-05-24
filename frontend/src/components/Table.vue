@@ -4,7 +4,12 @@
         <th>Nome de Usuário</th>
         <th>E-mail</th>
       </thead>
-      {{ info }}
+      <tbody>
+        <tr v-for="user in users" :key="user.email">
+          <td>{{user.u_name}}</td>
+          <td>{{user.email}}</td>
+        </tr>
+      </tbody>
     </table>
 
 </template>
@@ -16,28 +21,15 @@
    name: 'TableInfo',
    data(){
      return {
-       info: ""
+       users: []
      }
    },
    mounted(){
-     
       api.get("records").then((response) => {
-        let data = response.data
-        let table = document.getElementById('table')
-        
-        //Loop to fill the table
-        for(let i = 0; i<= data.length; i++){
-          table.innerHTML += `<tr>`
-          for(let i = 0; i <= data.length; i++){
-            table.innerHTML += `<td>${(data[i].u_name)}</td> <td> ${(data[i].email)}</td>`
-          }
-          table.innerHTML += `</tr>`
-        }
-
+        this.users = response.data
       }).catch(error => {console.log(error) })
     }
  }
-
 </script>
 
 <style>
